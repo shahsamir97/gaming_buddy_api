@@ -2,15 +2,27 @@ var db_conn = require('./db_connection');
 var con = db_conn.getConnection();
 
 exports.searchPlayer = function (req,res) {
-    const game = req.query.game;
-    const playerName = req.query.searchPlayer;
-    const page = req.query.page;
 
+    const game = wrapForLikeCaluse(req.query.game);
+    const playerName = wrapForLikeCaluse(req.query.searchPlayer);
+    const institution = wrapForLikeCaluse(req.query.institution);
+    const city = wrapForLikeCaluse(req.query.city);
+    const country = wrapForLikeCaluse(req.query.country);
+    const page = wrapForLikeCaluse(req.query.page);
 
-    var sql = "SELECT * FROM user where email=?";
-    con.query(sql, [email], function (err, result) {
-        console.log(result[0]);
-        res.json(result[0]);
+    var sql = "SELECT name FROM user where selected_games like ? and name like ? and institution like ? and city like ? and country like ?";
+    con.query(sql, [game, playerName, institution, city, country], function (err, result) {
+        if (err) console.log(err)
+        console.log(result);
+        res.json(result);
     })
+}
 
+function wrapForLikeCaluse(value){
+    // % % used to user this values inside mysql like operator
+    if (value == undefined){
+        value = "";
+    }
+    console.log(value)
+    return "%"+value+"%";
 }

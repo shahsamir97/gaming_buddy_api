@@ -1,24 +1,30 @@
-var express = require('express');
-var loginModule = require('./model/login');
-var registerModule = require('./model/register_user');
-const userModule = require('./model/user')
+const express = require('express');
+const loginModule = require('./model/login');
+const registerModule = require('./model/register_user');
+const userModule = require('./model/user');
+const verifyToken = require('./token');
 const bodyParser = require('body-parser');
+const searchPlayersModule = require('./model/search_player');
 
-var app = express();
+const app = express();
 
-app.use(bodyParser.urlencoded({extended : false}))
+app.use(bodyParser.urlencoded({extended : false}));
 
 app.post("/login", function (req, res) {
-    loginModule.loginUser(req, res)
+    loginModule.loginUser(req, res);
 });
 
 app.post("/register", function (req, res) {
-    registerModule.createUser(res, req)
+    registerModule.createUser(res, req);
 })
 
-var verifyToken = require('./token')
+
 app.get("/me", verifyToken, function (req, res, next) {
-   userModule.userInfo(req,res)
+   userModule.userInfo(req,res);
+})
+
+app.get("/searchPlayers", function (req, res) {
+    searchPlayersModule.searchPlayer(req, res)
 })
 
 app.listen(3000);
