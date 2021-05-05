@@ -31,4 +31,8 @@ app.post("/forgetPassword", function (req, res) {
    forgetPasswordModule.forgetPassword(req,res);
 });
 
+app.get('/', function (req, res) {
+    res.send("Serviver running")
+})
+
 app.listen(3000);
