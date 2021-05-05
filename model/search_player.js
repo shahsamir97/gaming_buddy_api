@@ -10,11 +10,11 @@ exports.searchPlayer = function (req,res) {
     const country = wrapForLikeCaluse(req.query.country);
     const page = wrapForLikeCaluse(req.query.page);
 
-    var sql = "SELECT name FROM user where selected_games like ? and name like ? and institution like ? and city like ? and country like ?";
+    var sql = "SELECT id,name FROM user where selected_games like ? and name like ? and institution like ? and city like ? and country like ?";
     con.query(sql, [game, playerName, institution, city, country], function (err, result) {
         if (err) console.log(err)
         console.log(result);
-        res.json(result);
+        res.json({ auth: true, message:"successful","response":result});
     })
 }
 
