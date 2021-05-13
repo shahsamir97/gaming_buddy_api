@@ -1,0 +1,38 @@
+[
+  {
+    "name":"Valorant",
+    "imgUrl":"/img/games/valorant.jpg"
+  },
+  {
+    "name":"Apex Legends",
+    "imgUrl":"/img/games/apexLegends.jpg"
+  },
+  {
+    "name":"GTA V",
+    "imgUrl":"/img/games/gtav.jpg"
+  },
+  {
+    "name":"Pubg",
+    "imgUrl":"/img/games/pubg.jpg"
+  },
+  {
+    "name":"Freefire",
+    "imgUrl":"/img/games/freefire.jpg"
+  },
+  {
+    "name":"FIFA 21",
+    "imgUrl":"/img/games/fifa21.png"
+  },
+  {
+    "name":"CS GO",
+    "imgUrl":"/img/games/csgo.jpeg"
+  },
+  {
+    "name":"Red Dead Online",
+    "imgUrl":"/img/games/RDonline.jpg"
+  },
+  {
+    "name":"COD Warzone",
+    "imgUrl":"/img/games/warzone.jpg"
+  }
+]

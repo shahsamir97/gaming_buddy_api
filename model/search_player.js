@@ -4,7 +4,7 @@ var con = db_conn.getConnection();
 exports.searchPlayer = function (req,res) {
 
     const game = wrapForLikeCaluse(req.query.game);
-    const playerName = wrapForLikeCaluse(req.query.searchPlayer);
+    const playerName = wrapForLikeCaluse(req.query.playerName);
     const institution = wrapForLikeCaluse(req.query.institution);
     const city = wrapForLikeCaluse(req.query.city);
     const country = wrapForLikeCaluse(req.query.country);
@@ -14,13 +14,13 @@ exports.searchPlayer = function (req,res) {
     con.query(sql, [game, playerName, institution, city, country], function (err, result) {
         if (err) console.log(err)
         console.log(result);
-        res.json({ auth: true, message:"successful","response":result});
+        res.json(result);
     })
 }
 
 function wrapForLikeCaluse(value){
     // % % used to user this values inside mysql like operator
-    if (value == undefined){
+    if (value == undefined || value == "null"){
         value = "";
     }
     console.log(value)
