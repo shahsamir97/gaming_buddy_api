@@ -5,6 +5,8 @@ exports.sendFriendRequest = function (req,res) {
     const senderId = req.body.senderId
     const receiverId = req.body.receiverId
 
+    console.log("senderId :",senderId)
+
     //checking whether a request already in db
     var sql =  "SELECT * FROM friend_request WHERE receiverId=? and senderId=?";
     con.query(sql,[receiverId, senderId], function (err, result) {

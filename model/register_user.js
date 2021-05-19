@@ -24,7 +24,7 @@ exports.createUser = function (response, request){
             if(result.length < 1) {
                 //when email is new or not exist in the database
                 const hashedPassword = bcrypt.hashSync(password, 8)
-                var sql = "INSERT INTO user ( name, email, password, age, institution, country, city, selected_games) VALUES (?,?,?,?,?,?,?,?)";
+                var sql = "INSERT INTO user ( id,name, email, password, age, institution, country, city, selected_games) VALUES (UUID_SHORT(),?,?,?,?,?,?,?,?)";
                 con.query(sql, [name, email, hashedPassword, age, institution, country, city, selectedGames], function (err, result) {
                     if (err) {
                         //Create user failed

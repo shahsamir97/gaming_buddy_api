@@ -12,6 +12,7 @@ const sendFriendRequestModule = require('./model/send_friend_request')
 const app = express();
 
 app.use(bodyParser.urlencoded({extended : false}));
+app.use('/img/games', express.static('./img/games'))
 
 app.post("/login", function (req, res) {
     loginModule.loginUser(req, res);
@@ -48,10 +49,25 @@ app.post('/sendFriendRequest', function (req, res) {
     sendFriendRequestModule.sendFriendRequest(req, res)
 })
 
+const friendRequest = require('./model/friend_requests')
+app.get('/friendRequests',  function (req, res) {
+    friendRequest.getFriendRequests(req, res)
+})
+
+const addToFriendListModule = require('./model/addToFriendList')
+app.post('/addToFriends', function (req, res) {
+    addToFriendListModule.addToFriendList(req, res)
+})
+
+const friendListModule = require('./model/friendlist')
+app.get('/friendlist', function (req, res) {
+    friendListModule.getFriendList(req, res)
+})
+
 app.get('/', function (req, res) {
     res.send("Serviver running")
 })
 
-app.use('/img/games', express.static('./img/games'))
 
-app.listen(80);
+
+app.listen(3000);
