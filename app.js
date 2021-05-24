@@ -64,6 +64,24 @@ app.get('/friendlist', function (req, res) {
     friendListModule.getFriendList(req, res)
 })
 
+const chatModule = require('./model/chat')
+app.post('/chat',function (req, res) {
+chatModule.sendMessage(req, res)
+})
+
+app.get('/getchats', function (req, res) {
+    chatModule.getChats(req,res)
+})
+
+app.get('/getChatInfo', function (req, res) {
+    chatModule.getChatInfo(req,res)
+})
+
+app.get('/getChatMessages', function (req, res) {
+    chatModule.getMessages(req,res)
+})
+
+
 app.get('/', function (req, res) {
     res.send("Serviver running")
 })

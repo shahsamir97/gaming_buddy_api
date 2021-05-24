@@ -4,6 +4,8 @@ var con = db_conn.getConnection();
 exports.getFriendList = function (req, res){
     const userId  = req.query.userId
 
+    console.log("User Id :", userId)
+
     const query = "SELECT user.id,user.name FROM friends,user WHERE friends.userId=? and user.id=friends.friendId";
 
     con.query(query, [userId], function (err, result) {
