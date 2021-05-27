@@ -105,5 +105,11 @@ exports.getMessages = function (req, res) {
     const receiverId = req.query.receiverId
     const chatId = req.query.chatId
 
-    console.log(chatId)
+    const query = "SELECT * FROM chat where (senderId=? and receiverId=?) or (senderId=? and receiverId?)"
+    con.query(query, [userId, receiverId, receiverId, userId], function (err, result) {
+        if (err) res.status(500)
+        else {
+            res.json(result)
+        }
+    })
 }
