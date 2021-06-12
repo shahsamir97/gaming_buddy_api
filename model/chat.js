@@ -6,9 +6,43 @@ exports.sendMessage = function (req, res) {
     const senderId = req.body.senderId
     const receiverId = req.body.receiverId
     const message = req.body.message
-    var chatId = req.body.chatId
+    let chatId = req.body.chatId;
 
-    var query = ""
+    con.beginTransaction(function(err) {
+        if (err) { throw err; }
+
+        var timestamp = new Date().getUTCMilliseconds();
+
+        con.query('UPDATE user SET inbox=? WHERE id=?',[timestamp, senderId], function (error, results1) {
+            if (err || results1.affectedRows === 0) {
+                return con.rollback(function() {
+                    res.send({message : "failed"})
+                });
+            }else {
+                console.log(results1.affectedRows)
+            }
+
+            con.query('UPDATE user SET inbox=? WHERE id=?',[timestamp, receiverId], function (error, results) {
+                if (err || results.affectedRows === 0) {
+                    return con.rollback(function() {
+                        res.send({message : "failed"})
+                    });
+                }
+                con.commit(function(err) {
+                    if (err) {
+                        return con.rollback(function() {
+                            res.send({message : "failed"})
+                        });
+                    }
+                    console.log('success!');
+                    res.send({message: "success"})
+                });
+            });
+        });
+    });
+
+
+/*    let query = "";
     if (chatId == undefined){
         //checking If sender and receiver already have a chatId.
         query = "SELECT chatId FROM chat where senderId=? and receiverId=?  or senderId=? and receiverId=? limit 1"
@@ -59,7 +93,7 @@ exports.sendMessage = function (req, res) {
                 res.status(200).send({message: "Message Sent"})
             }
         })
-    }
+    }*/
 
 
 }
@@ -113,3 +147,4 @@ exports.getMessages = function (req, res) {
         }
     })
 }
+//hello
