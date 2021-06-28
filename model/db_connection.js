@@ -1,17 +1,19 @@
 const mysql = require('mysql');
 
-var con = mysql.createConnection({
+var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "gamingbuddyapi"
 });
 
-con.connect(function (err) {
+connection.connect(function (err) {
     if (err) throw err;
     console.log("connected")
 });
 
 exports.getConnection = function () {
-    return con
+    return connection
 }
+
+

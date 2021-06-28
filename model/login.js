@@ -1,7 +1,7 @@
-var db_conn = require('./db_connection');
-var config = require('../config');
-var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
+const db_conn = require('./db_connection');
+const config = require('../config');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 exports.loginUser = function (req, res){
     const email = req.body.email;
@@ -10,8 +10,6 @@ exports.loginUser = function (req, res){
     if(email == null || password == null){
         res.status(500)
     }
-
-    console.log(email + password)
 
     var sql = "SELECT id,password FROM user where email=?";
     db_conn.getConnection().query(sql, [email], function (err, result){
