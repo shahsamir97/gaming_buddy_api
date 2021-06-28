@@ -65,7 +65,7 @@ app.get('/friendlist', function (req, res) {
 })
 
 const chatModule = require('./model/chat')
-app.post('/chat',function (req, res) {
+app.post('/sendMessage',function (req, res) {
 chatModule.sendMessage(req, res)
 })
 
