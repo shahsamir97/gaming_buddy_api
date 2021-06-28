@@ -19,13 +19,12 @@ exports.sendMessage = function (req, res) {
         con.query('UPDATE user SET inbox=CONCAT(inbox,?) WHERE id=?', [chatId+",", senderId], function (err, results) {
             if (err || results.affectedRows === 0) {
                 return con.rollback(function () {
-                    throw err
+                    res.send({message: "failed"})
                 });
             }
 
             con.query('UPDATE user SET inbox=CONCAT(inbox,?) WHERE id=?', [chatId+",", receiverId], function (err, results) {
                 if (err || results.affectedRows === 0) {
-                    throw err
                     return con.rollback(function () {
                         res.send({message: "failed"})
                     });
@@ -33,7 +32,6 @@ exports.sendMessage = function (req, res) {
 
                 con.query('Insert into chat (chatId, last_message, senderId, receiverId) values (?,?,?,?)', [chatId, message, senderId, receiverId], function (err, results) {
                     if (err) {
-                        throw err
                         return con.rollback(function () {
                             res.send({message: "failed"})
                         });
@@ -41,7 +39,6 @@ exports.sendMessage = function (req, res) {
 
                     con.query('Insert into messages (chatId, message, senderId, receiverId) values (?,?,?,?)',[chatId,message,senderId, receiverId],function (error, results) {
                         if (error) {
-                            throw err
                             return con.rollback(function () {
                                 res.send({message: "failed"})
                             });
@@ -49,7 +46,6 @@ exports.sendMessage = function (req, res) {
 
                         con.commit(function (err) {
                             if (err) {
-                                throw err
                                 return con.rollback(function () {
                                     res.send({message: "failed"})
                                 });
@@ -105,10 +101,6 @@ exports.getChatInfo = function (req, res) {
                         res.send(output)
                     })
             })
-
-
-
-
 }
 
 exports.getMessages = function (req, res) {
