@@ -2,7 +2,7 @@ const express = require('express');
 const loginModule = require('./model/login');
 const registerModule = require('./model/register_user');
 const userModule = require('./model/user');
-const forgetPasswordModule = require('./model/forget_password')
+//const forgetPasswordModule = require('./model/forget_password')
 const gameListModule = require('./model/game_list')
 const verifyToken = require('./token');
 const bodyParser = require('body-parser');
@@ -30,9 +30,9 @@ app.get("/searchPlayers", verifyToken,function (req, res) {
     searchPlayersModule.searchPlayer(req, res)
 });
 
-app.post("/forgetPassword", function (req, res) {
-   forgetPasswordModule.forgetPassword(req,res);
-});
+// app.post("/forgetPassword", function (req, res) {
+//    forgetPasswordModule.forgetPassword(req,res);
+// });
 
 app.get('/gameList', function (req, res) {
     gameListModule.gameList(req,res)
