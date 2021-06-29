@@ -1,4 +1,3 @@
-const express = require('express');
 const loginModule = require('./model/login');
 const registerModule = require('./model/register_user');
 const userModule = require('./model/user');
@@ -9,10 +8,36 @@ const bodyParser = require('body-parser');
 const searchPlayersModule = require('./model/search_player');
 const sendFriendRequestModule = require('./model/send_friend_request')
 
-const app = express();
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var MySQLEvents = require('mysql-events');
+var events = MySQLEvents({
+    host: "localhost",
+    user: "root",
+    password: ""
+})
 
-app.use(bodyParser.urlencoded({extended : false}));
-app.use('/img/games', express.static('./img/games'))
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(socket) {
+    console.log('A user connected');
+
+    //Send a message after a timeout of 4seconds
+    setTimeout(function() {
+        socket.send('Sent a message 4seconds after connection!');
+    }, 4000);
+
+    socket.on('disconnect', function () {
+        console.log('A user disconnected');
+    });
+});
+
+
+//app.use(bodyParser.urlencoded({extended : false}));
+//app.use('/img/games', express.static('./img/games'))
 
 app.post("/login", function (req, res) {
     loginModule.loginUser(req, res);
@@ -82,10 +107,8 @@ app.get('/getChatMessages', function (req, res) {
 })
 
 
-app.get('/', function (req, res) {
-    res.send("Serviver running")
-})
 
 
-
-app.listen(3000);
+http.listen(3000, function() {
+    console.log('listening on *:3000');
+});
