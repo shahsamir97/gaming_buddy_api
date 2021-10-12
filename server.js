@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const searchPlayersModule = require('./model/search_player');
 const sendFriendRequestModule = require('./model/send_friend_request')
 
-var app = require('express')();
-var http = require('http').Server(app);
+var server = require('express')();
+var http = require('http').Server(server);
 var io = require('socket.io')(http);
 var MySQLEvents = require('mysql-events');
 var events = MySQLEvents({
@@ -18,7 +18,7 @@ var events = MySQLEvents({
     password: ""
 })
 
-app.get('/', function(req, res) {
+server.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
@@ -36,73 +36,73 @@ io.on('connection', function(socket) {
 });
 
 
-//app.use(bodyParser.urlencoded({extended : false}));
-//app.use('/img/games', express.static('./img/games'))
+//server.use(bodyParser.urlencoded({extended : false}));
+//server.use('/img/games', express.static('./img/games'))
 
-app.post("/login", function (req, res) {
+server.post("/login", function (req, res) {
     loginModule.loginUser(req, res);
 });
 
-app.post("/register", function (req, res) {
+server.post("/register", function (req, res) {
     registerModule.createUser(res, req);
 });
 
-app.get("/me", verifyToken, function (req, res, next) {
+server.get("/me", verifyToken, function (req, res, next) {
    userModule.userInfo(req,res);
 });
 
-app.get("/searchPlayers", verifyToken,function (req, res) {
+server.get("/searchPlayers", verifyToken,function (req, res) {
     searchPlayersModule.searchPlayer(req, res)
 });
 
-// app.post("/forgetPassword", function (req, res) {
+// server.post("/forgetPassword", function (req, res) {
 //    forgetPasswordModule.forgetPassword(req,res);
 // });
 
-app.get('/gameList', function (req, res) {
+server.get('/gameList', function (req, res) {
     gameListModule.gameList(req,res)
 })
 
 const checkEmailModule = require('./model/checkEmailExistence')
-app.get('/checkEmail', function (req, res) {
+server.get('/checkEmail', function (req, res) {
 checkEmailModule.checkEmail(req, res)
 })
 
-app.get('/verifyToken', verifyToken)
+server.get('/verifyToken', verifyToken)
 
-app.post('/sendFriendRequest', function (req, res) {
+server.post('/sendFriendRequest', function (req, res) {
     sendFriendRequestModule.sendFriendRequest(req, res)
 })
 
 const friendRequest = require('./model/friend_requests')
-app.get('/friendRequests',  function (req, res) {
+server.get('/friendRequests',  function (req, res) {
     friendRequest.getFriendRequests(req, res)
 })
 
 const addToFriendListModule = require('./model/addToFriendList')
-app.post('/addToFriends', function (req, res) {
+server.post('/addToFriends', function (req, res) {
     addToFriendListModule.addToFriendList(req, res)
 })
 
 const friendListModule = require('./model/friendlist')
-app.get('/friendlist', function (req, res) {
+server.get('/friendlist', function (req, res) {
     friendListModule.getFriendList(req, res)
 })
 
 const chatModule = require('./model/chat')
-app.post('/sendMessage',function (req, res) {
+server.post('/sendMessage',function (req, res) {
 chatModule.sendMessage(req, res)
 })
 
-app.get('/getchats', function (req, res) {
+server.get('/getchats', function (req, res) {
     chatModule.getChats(req,res)
 })
 
-app.get('/getChatInfo', function (req, res) {
+server.get('/getChatInfo', function (req, res) {
     chatModule.getChatInfo(req,res)
 })
 
-app.get('/getChatMessages', function (req, res) {
+server.get('/getChatMessages', function (req, res) {
     chatModule.getMessages(req,res)
 })
 
