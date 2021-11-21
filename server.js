@@ -11,12 +11,6 @@ const sendFriendRequestModule = require('./model/send_friend_request')
 var server = require('express')();
 var http = require('http').Server(server);
 var io = require('socket.io')(http);
-var MySQLEvents = require('mysql-events');
-var events = MySQLEvents({
-    host: "localhost",
-    user: "root",
-    password: ""
-})
 
 server.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -36,7 +30,7 @@ io.on('connection', function(socket) {
 });
 
 
-//server.use(bodyParser.urlencoded({extended : false}));
+server.use(bodyParser.urlencoded({extended : false}));
 //server.use('/img/games', express.static('./img/games'))
 
 server.post("/login", function (req, res) {
@@ -106,9 +100,6 @@ server.get('/getChatMessages', function (req, res) {
     chatModule.getMessages(req,res)
 })
 
-
-
-
-http.listen(8888, function() {
+http.listen(3000, function() {
     console.log('listening on *:3000');
 });
