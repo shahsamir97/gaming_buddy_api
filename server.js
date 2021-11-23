@@ -16,8 +16,27 @@ server.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+io.use((socket, next)=>{
+    const username  = socket.handshake.auth.username;
+    if(!username){
+        return next(new Error("Invalid Username"));
+    }
+    socket.username = username;
+    next();
+})
+
 io.on('connection', function(socket) {
     console.log('A user connected');
+    socket.emit("chat message", socket.id.toString)
+    console.log(socket.id)
+
+    socket.on('chat message', (msg) => {
+
+    });
+
+    socket.onAny((event, ...args) => {
+        console.log(event, args);
+    });
 
     //Send a message after a timeout of 4seconds
     setTimeout(function() {
@@ -100,6 +119,6 @@ server.get('/getChatMessages', function (req, res) {
     chatModule.getMessages(req,res)
 })
 
-http.listen(3000, function() {
+http.listen( process.env.PORT || 3000, function() {
     console.log('listening on *:3000');
 });
