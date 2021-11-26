@@ -10,7 +10,9 @@ const sendFriendRequestModule = require('./model/send_friend_request')
 
 var server = require('express')();
 var http = require('http').Server(server);
-var io = require('socket.io')(http);
+var io = require('socket.io')(http, {
+    cors : ["http://localhost:63342"]
+});
 
 server.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -19,6 +21,7 @@ server.get('/', function(req, res) {
 io.use((socket, next)=>{
     const username  = socket.handshake.auth.username;
     if(!username){
+        console.log("Invalid username!")
         return next(new Error("Invalid Username"));
     }
     socket.username = username;

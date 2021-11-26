@@ -59,20 +59,8 @@
             background: #efefef;
         }
     </style>
-     <script>
-        var socket = io();
-        var form = document.getElementById('form');
-        var input = document.getElementById('input');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (input.value) {
-                socket.emit('chat message', input.value);
-                input.value = '';
-            }
-        });
-    </script>
 </head>
+<script type="module" src="../scripts/index.js"></script>
 <body>
 <ul id="messages"></ul>
 <form id="form" action="">
