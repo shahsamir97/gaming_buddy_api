@@ -7,6 +7,10 @@ const verifyToken = require('./token');
 const bodyParser = require('body-parser');
 const searchPlayersModule = require('./model/search_player');
 const sendFriendRequestModule = require('./model/send_friend_request')
+const utils = require('./utils/utils')
+
+const { ConnectedUserStore } = require('./scripts/connected_userStore')
+const connectedUserStore = new ConnectedUserStore()
 
 var server = require('express')();
 var http = require('http').Server(server);
@@ -21,19 +25,31 @@ server.get('/', function(req, res) {
 io.use((socket, next)=>{
     const username  = socket.handshake.auth.username;
     if(!username){
-        console.log("Invalid username!")
+        console.log("Invalid username!");
         return next(new Error("Invalid Username"));
     }
+    console.log(socket.id);
+    connectedUserStore.addUser(username, socket.id)
     socket.username = username;
     next();
 })
 
 io.on('connection', function(socket) {
     console.log('A user connected');
-    socket.emit("chat message", socket.id.toString)
-    console.log(socket.id)
+    console.log("--------------Connected Users")
+    connectedUserStore.users.forEach(function (key, value){
+        console.log(value)
+    })
+    console.log("--------------")
+
+
 
     socket.on('chat message', (msg) => {
+        const roomId = connectedUserStore.findUser("shah")
+        if (roomId){
+            console.log(roomId + "rrom ID")
+            socket.to(roomId).emit('chat message',{message : msg})
+        }
 
     });
 
@@ -47,7 +63,10 @@ io.on('connection', function(socket) {
     }, 4000);
 
     socket.on('disconnect', function () {
-        console.log('A user disconnected');
+       console.log(socket.username + " disconnected")
+        connectedUserStore.removeUser(socket.username)
+        //logging
+        utils.connectedUserLog(connectedUserStore.users)
     });
 });
 

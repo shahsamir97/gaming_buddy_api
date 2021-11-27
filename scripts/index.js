@@ -11,7 +11,11 @@ var input = document.getElementById('input');
 form.addEventListener('submit', function(e) {
     e.preventDefault();
     if (input.value) {
-        socket.emit('chat message', input.value);
+        socket.emit('chat message', {message : input.value});
         input.value = '';
     }
+});
+
+socket.onAny((event, ...args) => {
+    console.log(event, args);
 });
