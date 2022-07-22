@@ -11,7 +11,7 @@ connection.connect(function (err) {
     if (err) {
         console.log("Database disconnected");
     }
-    console.log("Database connected")
+    console.log("Database connected");
 });
 
 exports.getConnection = function () {
