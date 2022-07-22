@@ -19,7 +19,7 @@ var io = require('socket.io')(http, {
 });
 
 server.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/view/index.html');
 });
 
 io.use((socket, next)=>{
