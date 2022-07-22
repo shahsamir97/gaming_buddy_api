@@ -44,11 +44,12 @@ io.on('connection', function(socket) {
 
 
 
-    socket.on('chat message', (msg) => {
-        const roomId = connectedUserStore.findUser("shah")
+    socket.on('chat message', ({to, message}) => {
+        console.log(to, message)
+        const roomId = connectedUserStore.findUser(to)
         if (roomId){
             console.log(roomId + "rrom ID")
-            socket.to(roomId).emit('chat message',{message : msg})
+            socket.to(roomId).emit('chat message',{message : message})
         }
 
     });

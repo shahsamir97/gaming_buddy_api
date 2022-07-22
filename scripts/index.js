@@ -11,7 +11,7 @@ var input = document.getElementById('input');
 form.addEventListener('submit', function(e) {
     e.preventDefault();
     if (input.value) {
-        socket.emit('chat message', {message : input.value});
+        socket.emit('chat message', {to : "shah", message : input.value});
         input.value = '';
     }
 });
