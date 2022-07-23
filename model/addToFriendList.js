@@ -20,7 +20,6 @@ So when B accept the request, we will insert row in friends table for both user.
 A is user and B is friend. On the other hand, B is user and A is friend. So that we can retrieve the
 friendlist for each user more easily
 */
-
 function doInReverse(res,userId, friendId) {
     // this time userId = friendId and friendId = userId
     var query = "INSERT INTO friends (userId, friendId) values (?,?)";
