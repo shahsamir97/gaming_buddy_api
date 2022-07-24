@@ -2,13 +2,13 @@ var db_conn = require('./db_connection');
 var con = db_conn.getConnection();
 
 exports.addToFriendList = function (req, res) {
-    const userId = req.body.userId
-    const friendId = req.body.friendId
+    const receiver = req.body.userId
+    const sender = req.body.friendId
 
     console.log(friendId)
 
-    var query = "INSERT INTO friends (userId, friendId) values (?,?)";
-    con.query(query, [userId, friendId], function (err, result) {
+    var query = "INSERT INTO friends (receiver, sender) values (?,?)";
+    con.query(query, [receiver, sender], function (err, result) {
         if (err) res.status(500)
         doInReverse(res, userId,friendId)
     })

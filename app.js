@@ -43,7 +43,6 @@ io.on('connection', function(socket) {
     console.log("--------------")
 
 
-
     socket.on('chat message', (msg) => {
         const roomId = connectedUserStore.findUser("shah")
         if (roomId){

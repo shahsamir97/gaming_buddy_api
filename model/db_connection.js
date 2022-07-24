@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 var connection = mysql.createConnection({
-    host: "eu-cdbr-west-03.cleardb.net",
-    user: "b6ed446cb9886e",
-    password: "3c83becd",
-    database: "heroku_ce45d63fb4417ef"
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "gamingbuddy"
 });
 
 connection.connect(function (err) {
@@ -22,9 +22,6 @@ connection.on('error', function(err) {
         throw err;                                  // server variable configures this)
     }
 });
-
-
-
 
 exports.getConnection = function () {
     return connection
